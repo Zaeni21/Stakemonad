@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Stake NEX</title>
+  <title>Stake MON</title>
   <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
 </head>
 <body class="bg-gray-50 text-gray-900 font-sans">
   <div class="max-w-md mx-auto p-6">
-    <h1 class="text-3xl font-bold mb-6">Stake NEX</h1>
+    <h1 class="text-3xl font-bold mb-6">Stake MON</h1>
 
     <div class="bg-white shadow rounded-lg p-4 mb-6">
       <div class="flex justify-between items-center text-sm">
@@ -26,16 +26,16 @@
       </div>
       <p id="walletBalance" class="text-sm text-gray-500 mt-1">Balance: -</p>
 <div class="text-center text-sm text-gray-500 mb-2">
-  APY: <span id="apyValue">-</span>% &bull; Pool: <span id="poolBalance">-</span> NEX
+  APY: <span id="apyValue">-</span>% &bull; Pool: <span id="poolBalance">-</span> MON
 </div>
       <div class="grid grid-cols-2 gap-4 text-center mt-4">
         <div>
           <p class="text-gray-500">Total Staked</p>
-          <p id="totalStaked" class="text-lg font-semibold">0.00 NEX</p>
+          <p id="totalStaked" class="text-lg font-semibold">0.00 MON</p>
         </div>
         <div>
           <p class="text-gray-500">Pending Rewards</p>
-          <p id="pendingRewards" class="text-lg font-semibold">0.00 NEX</p>
+          <p id="pendingRewards" class="text-lg font-semibold">0.00 MON</p>
         </div>
       </div>
     </div>
@@ -71,7 +71,7 @@
   let balance = 0, totalStaked = 0;
   let mode = "stake";
 
-  const contractAddress = "0xC04F4564586EaAF6846cAcbF7E5F63c40E8b8595"; // Nexus
+  const contractAddress = "0xb6fE69814F6B387AB34494e5e7622eCEEE954c0F"; // Monad
   const abi = [
 	{
 		"inputs": [],
@@ -270,9 +270,9 @@ async function updateUI() {
   balance = parseFloat(ethers.utils.formatEther(rawBal));
   totalStaked = parseFloat(ethers.utils.formatEther(staked));
 
-  document.getElementById("walletBalance").textContent = `Balance: ${balance.toFixed(2)} NEX`;
-  document.getElementById("totalStaked").textContent = totalStaked.toFixed(2) + " NEX";
-  document.getElementById("pendingRewards").textContent = parseFloat(ethers.utils.formatEther(reward)).toFixed(2) + " NEX";
+  document.getElementById("walletBalance").textContent = `Balance: ${balance.toFixed(2)} MON`;
+  document.getElementById("totalStaked").textContent = totalStaked.toFixed(2) + " MON";
+  document.getElementById("pendingRewards").textContent = parseFloat(ethers.utils.formatEther(reward)).toFixed(2) + " MON";
 	const apy = await contract.apy();
 document.getElementById("apyValue").textContent = apy.toString();
 
@@ -285,11 +285,11 @@ document.getElementById("poolBalance").textContent =
     provider = new ethers.providers.Web3Provider(window.ethereum);
 
     await provider.send("wallet_addEthereumChain", [{
-      chainId: '0x189',
-      chainName: 'Nexus',
-      rpcUrls: ['https://rpc.nexus.xyz/http'],
-      nativeCurrency: { name: 'NEX', symbol: 'NEX', decimals: 18 },
-      blockExplorerUrls: ['https://nexus-new.explorer.caldera.xyz']
+      chainId: '0x279F',
+      chainName: 'Monad Testnet',
+      rpcUrls: ['https://testnet-rpc.monad.xyz'],
+      nativeCurrency: { name: 'MON', symbol: 'MON', decimals: 18 },
+      blockExplorerUrls: ['https://testnet.monadexplorer.com']
     }]);
 
     await provider.send("eth_requestAccounts", []);
@@ -303,13 +303,13 @@ document.getElementById("poolBalance").textContent =
 
     const rawBal = await provider.getBalance(walletAddress);
     balance = parseFloat(ethers.utils.formatEther(rawBal));
-    document.getElementById("walletBalance").textContent = `Balance: ${balance.toFixed(2)} NEX`;
+    document.getElementById("walletBalance").textContent = `Balance: ${balance.toFixed(2)} MON`;
 
     const staked = await contract.getStakedAmount(walletAddress);
     const reward = await contract.pendingReward(walletAddress);
     totalStaked = parseFloat(ethers.utils.formatEther(staked));
 
-    document.getElementById("totalStaked").textContent = totalStaked.toFixed(2) + " NEX";
+    document.getElementById("totalStaked").textContent = totalStaked.toFixed(2) + " MON";
     document.getElementById("pendingRewards").textContent = parseFloat(ethers.utils.formatEther(reward)).toFixed(2) + " NEX";
 
     setMode(mode);
@@ -362,7 +362,7 @@ document.getElementById("poolBalance").textContent =
 
 const txBox = document.getElementById("txHashMsg");
 const txLink = document.getElementById("txLink");
-txLink.href = `https://nexus-new.explorer.caldera.xyz/tx/${receipt.transactionHash}`;
+txLink.href = `https://testnet.monvision.io/tx/${receipt.transactionHash}`;
 txBox.classList.remove("hidden");
 setTimeout(() => { txBox.classList.add("hidden"); }, 10000);
 
@@ -398,7 +398,7 @@ amountInput.addEventListener("input", () => {
 // TX hash UI
 const txBox = document.getElementById("txHashMsg");
 const txLink = document.getElementById("txLink");
-txLink.href = `https://nexus-new.explorer.caldera.xyz/tx/${receipt.transactionHash}`;
+txLink.href = `https://testnet.monvision.io/tx/${receipt.transactionHash}`;
 txBox.classList.remove("hidden");
 setTimeout(() => { txBox.classList.add("hidden"); }, 10000);
 
@@ -410,7 +410,7 @@ setTimeout(() => { txBox.classList.add("hidden"); }, 10000);
 }
 
 async function depositRewards() {
-  const admin = "0x58c5796edc7001b949693cc2655d190db54c271f";
+  const admin = "0x408e68F9dce5A0cd175Cd7C7EefB634D5f03A257";
   if (!walletAddress) {
     alert("Please connect your wallet.");
     return;
@@ -421,7 +421,7 @@ async function depositRewards() {
     return;
   }
 
-  const input = "10"; // hardcoded
+  const input = "5"; // hardcoded
 
   try {
     const value = ethers.utils.parseEther(input);
@@ -438,7 +438,7 @@ async function depositRewards() {
   if (walletAddress && contract) {
     try {
       const reward = await contract.pendingReward(walletAddress);
-      document.getElementById("pendingRewards").textContent = parseFloat(ethers.utils.formatEther(reward)).toFixed(4) + " NEX";
+      document.getElementById("pendingRewards").textContent = parseFloat(ethers.utils.formatEther(reward)).toFixed(4) + " MON";
     } catch (err) {
       console.error("Failed to update reward:", err);
     }
